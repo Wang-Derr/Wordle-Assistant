@@ -38,5 +38,5 @@ Wordle.
 
 WIP
 
-(This is not an in browser tool, it'll have to be run on a command line that can execute Python programs)
+(This is not an in-browser tool, it'll have to be run on a command line that can execute Python programs)
 
