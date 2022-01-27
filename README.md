@@ -2,6 +2,8 @@
 
 ## Description
 
+*currently a work-in-progress project*
+
 A tool to assist you in solving the daily [Wordle](https://www.powerlanguage.co.uk/wordle/) challenge. 
 
 Wordle is a word guessing game where the goal is to guess the correct 5-letter word.
@@ -36,7 +38,10 @@ Wordle.
 
 ## How-to
 
-WIP
-
 (This is not an in-browser tool, it'll have to be run on a command line that can execute Python programs)
 
+To execute this program, using your preferred python equipped terminal inside the root directory of this
+repository [Wordle-Assistant](https://github.com/Wang-Derr/Wordle-Assistant) and run:
+`python3 wordle_solver.py -- mode <random | wordbank>`.
+From there, simply follow the prompts and you'll be on your way to (*hopefully*) solving your daily
+Wordle challenge!
