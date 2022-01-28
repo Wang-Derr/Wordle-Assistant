@@ -42,6 +42,6 @@ Wordle.
 
 To execute this program, using your preferred python equipped terminal inside the root directory of this
 repository [Wordle-Assistant](https://github.com/Wang-Derr/Wordle-Assistant) and run:
-`python3 wordle_solver.py -- mode <random | wordbank>`.
+`python3 wordle_solver.py --mode <random | wordbank>`.
 From there, simply follow the prompts and you'll be on your way to (*hopefully*) solving your daily
 Wordle challenge!
