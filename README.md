@@ -2,7 +2,8 @@
 
 ## Description
 
-*currently a work-in-progress project*
+*currently a work-in-progress project* - Core functionality implemented, just fine
+tuning left to do.
 
 A tool to assist you in solving the daily [Wordle](https://www.powerlanguage.co.uk/wordle/) challenge. 
 
@@ -25,23 +26,25 @@ likely answers.
 With the knowledge of what words are considered "legal", I'm designing a program that
 will assist the user in guessing the correct word. There will be two methods: random
 word generator and word bank generator. The first will use information from previous
-guesses to generate a random word from the Wordle dictionary that fits the criteria
-and will either help your progress or will be the answer. The latter will generate a
-list of words (or word bank) that contains all the words that fit the criteria based
-on previous guesses and allow the user to choose which word they want to submit to
-Wordle.
+guesses to generate a random word from the Wordle dictionary that fits the established
+criterion and will help you progress or might even be the answer. The latter will
+generate a list of words (or word bank) that contains all the words that fit the
+criterion based on previous guesses and allow the user to choose which word they want
+to use for Wordle.
 
 ## Requirements
 
 - Python 3.5 or above
-- (maybe some pip packages, TBD)
 
 ## How-to
 
 (This is not an in-browser tool, it'll have to be run on a command line that can execute Python programs)
 
 To execute this program, using your preferred python equipped terminal inside the root directory of this
-repository [Wordle-Assistant](https://github.com/Wang-Derr/Wordle-Assistant) and run:
-`python3 wordle_solver.py --mode <random | wordbank>`.
+repository `/Wordle-Assistant/` and run:
+`python3 wordle_solver.py --mode <random | wordbank>` (pick between `random` or `wordbank` mode).
 From there, simply follow the prompts and you'll be on your way to (*hopefully*) solving your daily
 Wordle challenge!
+
+This tool can also be tested against [Absurdle](https://qntm.org/files/wordle/) a Wordle inspired
+adverserial word guessing game (not my work, credit belongs to [qntm](https://qntm.org/)).
