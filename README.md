@@ -2,9 +2,6 @@
 
 ## Description
 
-*currently a work-in-progress project* - Core functionality implemented, just fine
-tuning left to do.
-
 A tool to assist you in solving the daily [Wordle](https://www.powerlanguage.co.uk/wordle/) challenge. 
 
 Wordle is a word guessing game where the goal is to guess the correct 5-letter word.
@@ -23,12 +20,12 @@ combined to generate the file `wordle-dictionary-full.txt` so that it can be use
 determine what words are possible entries without giving away which words are the most
 likely answers.
 
-With the knowledge of what words are considered "legal", I'm designing a program that
-will assist the user in guessing the correct word. There will be two methods: random
+With the knowledge of what words are considered "legal", I've designed a program that
+will assist the user in guessing the correct word. There are two methods: random
 word generator and word bank generator. The first will use information from previous
 guesses to generate a random word from the Wordle dictionary that fits the established
 criterion and will help you progress or might even be the answer. The latter will
-generate a list of words (or word bank) that contains all the words that fit the
+generate a list of words (word bank) that contains all the words that fit the
 criterion based on previous guesses and allow the user to choose which word they want
 to use for Wordle.
 
@@ -48,3 +45,13 @@ Wordle challenge!
 
 This tool can also be tested against [Absurdle](https://qntm.org/files/wordle/) a Wordle inspired
 adverserial word guessing game (not my work, credit belongs to [qntm](https://qntm.org/)).
+
+## Future additions planned
+
+- Sort (and prioritize) words by unique letters, so the wordbank list will put **tummy** before **mummy** in the wordbank because it has less repeat letters and therefore help eliminate more possibilities. This extends to the random suggestion pool, it will prioritize words with more unique letters than not when making suggestions.
+
+## Versions
+
+V1.0.0
+- Official release!
+- Two modes: random and wordbank (read description above for more details)
