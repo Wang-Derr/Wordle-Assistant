@@ -48,7 +48,7 @@ adverserial word guessing game (not my work, credit belongs to [qntm](https://qn
 
 ## Future additions planned
 
-- Sort (and prioritize) words by unique letters, so the wordbank list will put **tummy** before **mummy** in the wordbank because it has less repeat letters and therefore help eliminate more possibilities. This extends to the random suggestion pool, it will prioritize words with more unique letters than not when making suggestions.
+- Sort (and prioritize) words by unique letters, so the wordbank list will put **tummy** before **mummy** in the wordbank because it has less repeat letters and therefore will help eliminate more possibilities. This extends to the random suggestion pool, it will prioritize words with more unique letters than not when making suggestions.
 
 ## Versions
 
