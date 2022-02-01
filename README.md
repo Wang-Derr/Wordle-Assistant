@@ -31,7 +31,7 @@ to use for Wordle.
 
 ## Requirements
 
-- Python 3.5 or above
+- Python 3.6 or above
 
 ## How-to
 
@@ -46,12 +46,23 @@ Wordle challenge!
 This tool can also be tested against [Absurdle](https://qntm.org/files/wordle/) a Wordle inspired
 adverserial word guessing game (not my work, credit belongs to [qntm](https://qntm.org/)).
 
+## Common issue(s)
+
+- Empty wordbank `[]` and/or `IndexError: list index out of range` are generally caused by incorrect inputs into the user prompts. Make sure that if a letter shows up as yellow then gray (e.g. jazzy, the first **z** may show up as yellow while the following **z** may show up as gray if there is a **z** in the word but not at those two locations) that you input them as both being yellow. The same goes for a word that may have a letter as green then gray in the same word, the grayed iteration of that letter should be considered yellow in your answer.
+
 ## Future additions planned
 
-- Sort (and prioritize) words by unique letters, so the wordbank list will put **tummy** before **mummy** in the wordbank because it has less repeat letters and therefore will help eliminate more possibilities. This extends to the random suggestion pool, it will prioritize words with more unique letters than not when making suggestions.
+- None at the moment...
 
 ## Versions
 
 V1.0.0
 - Official release!
 - Two modes: random and wordbank (read description above for more details)
+
+V1.1.0
+- Switched to a weighted list implementation so that randomly chosen words will more likely have unique letters instead of more than one of the same letter
+- The wordbank is also now sorted using the weighted list so that words at the beginning have the most unique letter combination
+- Fixed some copy/paste mistakes
+- Changed the order of user input requests so that it goes green->yellow->gray
+- Removed the need for the user to provide input for all 3 levels, only information on green and yellow tiles are required and the program will deduce gray tiles from whatever is left out

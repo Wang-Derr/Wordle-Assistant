@@ -1,5 +1,6 @@
 import argparse
 import random
+import sys
 
 def incorrectGuessLengthHandler(guess):
     # handler for guesses that are not the correct length
@@ -79,38 +80,71 @@ def letterStatusHandler(indices, mode, guess):
                         dict_list.remove(y)
 
 def wordEntryHandler(guess):
+    remaining_indices = ['1','2','3','4','5']
+
     # Process the user supplied info on (in)correct letter(s)
-    # ask how many letters were incorrect and which letter(s) then prune all words with these letters
-    incorrect_indices = input("Please enter the index of incorrect (gray) letters with no spaces or punctuation between or leave blank if none\n(It must be between 1-5 e.g. '125' if 'a', 'r', and 'e' from 'arose' are incorrect)\n(note that in the case of double letters like 'shook', the 1st 'o' may show up as yellow while the 2nd shows up as gray, please treat them both as yellow)\n")
-    incorrect_indices = incorrectIndexHandler(incorrect_indices)
-    indices_length = len(incorrect_indices)
-    letterStatusHandler(incorrect_indices, 0, guess)
+    # ask how many letters were correct and which letter(s) then prune all words that have different letters in the same spot
+    correct_indices = input ("\nPlease enter the index of correct (green) letters with no spaces or punctuation between or leave blank if none\n"
+                             "(enter as many time as there are instances e.g. '13' for 'ff' in 'fifth')\n")
+    correct_indices = incorrectIndexHandler(correct_indices)
+    indices_length = len(correct_indices)
+    letterStatusHandler(correct_indices, 2, guess)
     if (indices_length >= 5):
         return
 
     # ask how many letters were correct but in the wrong place and which letter(s) then prune all words that have the letter in the wrong spot
-    misplaced_indices = input("\nPlease enter the index of misplaced (yellow) letters with no spaces or punctuation between or leave blank if none\n(enter as many time as there are instances e.g. '45' for the 'ff' in 'scoff')\n")
+    misplaced_indices = input("\nPlease enter the index of misplaced (yellow) letters with no spaces or punctuation between or leave blank if none\n"
+                              "(enter as many time as there are instances e.g. '45' for the 'ff' in 'scoff')\n"
+                              "(if you submit a word with two of the same letter but one is green and one is gray, treat the gray one as yellow)\n"
+                              "(note that in the case of double letters like 'shook', the 1st 'o' may show up as yellow while the 2nd shows up as gray, please treat them both as yellow)\n")
     misplaced_indices = incorrectIndexHandler(misplaced_indices)
-    misplaced_indices = repeatIndexHandler(incorrect_indices, misplaced_indices)
+    misplaced_indices = repeatIndexHandler(correct_indices, misplaced_indices)
     indices_length += len(misplaced_indices)
     letterStatusHandler(misplaced_indices, 1, guess)
     if (indices_length >= 5):
         return
 
-    # ask how many letters were correct and which letter(s) then prune all words that have different letters in the same spot
-    correct_indices = input ("\nPlease enter the index of correct (green) letters with no spaces or punctuation between or leave blank if none\n(enter as many time as there are instances e.g. '13' for 'ff' in 'fifth')\n")
-    correct_indices = incorrectIndexHandler(correct_indices)
-    correct_indices = repeatIndexHandler(incorrect_indices + misplaced_indices, correct_indices)
-    letterStatusHandler(correct_indices, 2, guess)
+    # filter out already submitted indices
+    for x in correct_indices+misplaced_indices:
+        remaining_indices.remove(x)
+
+    # deduce incorrect letter(s) then prune all words with these letters
+    incorrect_indices = ''.join(remaining_indices)
+    letterStatusHandler(incorrect_indices, 0, guess)
+
 
 def subsequentRounds(guess):
     wordEntryHandler(guess)
+    # generate weights for words and sort the list with the weights
+    weight_list = []
+    subweight_list = [0] * 5
+    for x in dict_list:
+        i = 0
+        for y in x:
+            if x.count(y) == 0:
+                print("The impossible has occured...")
+                sys.exit()
+            elif x.count(y) == 1:
+                subweight_list[i] = 5
+                i += 1
+            elif x.count(y) == 2:
+                subweight_list[i] = 3
+                i += 1
+            elif x.count(y) == 3:
+                subweight_list[i] = 1
+                i += 1
+            else:
+                print("The impossible has occured...")
+                sys.exit()
+        weight_list.append(min(subweight_list))
+    weighted_dict = dict(zip(dict_list, weight_list))
+    sorted_dict = list(reversed(sorted(weighted_dict, key=weighted_dict.get)))
     if (mode):
         # Generate a wordbank that a user can select from manually or randomly
-        print("\nThis is your current wordbank:\n", dict_list)
+        print("\nThis is your current wordbank:\n", sorted_dict)
         wordbank_guess = input("\nPlease choose a word from the wordbank for your next guess or leave blank for a random word from the wordbank\n")
         if (len(wordbank_guess) == 0):
-            wordbank_guess = random.choice(dict_list)
+            wordbank_guess = ''.join(random.choices(dict_list, weights=weight_list, k=1))
             return wordbank_guess
         wordbank_guess = incorrectGuessLengthHandler(wordbank_guess)
         while True:
@@ -118,13 +152,13 @@ def subsequentRounds(guess):
                 break
             wordbank_guess = input("\nThe word you chose is not a valid guess please try again or leave blank for a random word\n")
             if (len(wordbank_guess) == 0):
-                wordbank_guess = random.choice(dict_list)
+                wordbank_guess = ''.join(random.choices(dict_list, weights=weight_list, k=1))
                 break
         return wordbank_guess.lower()
     else:
         # Provides the user with a randomly selected (valid) word
-        random_guess = random.choice(dict_list)
-        print("\nThis is your randomly suggested word: ", random.choice(dict_list))
+        random_guess = ''.join(random.choices(dict_list, weights=weight_list, k=1))
+        print("\nThis is your randomly suggested word: ", random_guess)
         return random_guess
 
 # import wordle dictionary into a list
@@ -151,17 +185,17 @@ while True:
         mode_str = input("please submit either 'random' or 'wordbank' \n")
 
 # round 1
-first_guess = input("What would you like your first guess to be? (leave empty for default first guess of 'arose')\n")
+first_guess = input("What would you like your first guess to be? (leave empty for default first guess of 'audio')\n")
 first_guess = incorrectGuessLengthHandler(first_guess)
 if (len(first_guess) == 5):
     while (not (first_guess.lower() in dict_list)):
-        first_guess = input("Your word was not found within the Wordle dictionary please enter another or leave blank to use 'arose'\n")
+        first_guess = input("Your word was not found within the Wordle dictionary please enter another or leave blank to use 'audio'\n")
         if (len(first_guess) == 0):
-            first_guess = 'arose'
+            first_guess = 'audio'
             break
         first_guess = incorrectGuessLengthHandler(first_guess)
 else:
-    first_guess = 'arose'
+    first_guess = 'audio'
 first_guess = first_guess.lower()
 print("\nPlease try <", first_guess, "> for your first guess\n")
 
@@ -171,15 +205,15 @@ print("\nPlease try <", second_guess, "> for your second guess\n")
 
 # round 3
 third_guess = subsequentRounds(second_guess)
-print("\nPlease try <", third_guess, "> for your second guess\n")
+print("\nPlease try <", third_guess, "> for your third guess\n")
 
 # round 4
 fourth_guess = subsequentRounds(third_guess)
-print("\nPlease try <", fourth_guess, "> for your second guess\n")
+print("\nPlease try <", fourth_guess, "> for your fourth guess\n")
 
 # round 5
 fifth_guess = subsequentRounds(fourth_guess)
-print("\nPlease try <", fifth_guess, "> for your second guess\n")
+print("\nPlease try <", fifth_guess, "> for your fifth guess\n")
 
 # round 6
 sixth_guess = subsequentRounds(fifth_guess)
