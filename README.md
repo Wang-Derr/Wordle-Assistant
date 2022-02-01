@@ -63,6 +63,6 @@ V1.0.0
 V1.1.0
 - Switched to a weighted list implementation so that randomly chosen words will more likely have unique letters instead of more than one of the same letter
 - The wordbank is also now sorted using the weighted list so that words at the beginning have the most unique letter combination
-- Fixed some copy/paste mistakes
+- Fixed some copy/paste mistakes that were printing the wrong round number
 - Changed the order of user input requests so that it goes green->yellow->gray
 - Removed the need for the user to provide input for all 3 levels, only information on green and yellow tiles are required and the program will deduce gray tiles from whatever is left out
